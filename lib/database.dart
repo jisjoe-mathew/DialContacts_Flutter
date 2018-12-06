@@ -98,6 +98,16 @@ class DBHelper{
     print(Contacts.length);
     return Contacts;
   }
+  Future<int> getMainCount() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM main');
+    List<MainClass> Contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      Contacts.add(new MainClass(list[i]["id"], list[i]["header"], list[i]["name"], list[i]["pic"]));
+    }
+    print(Contacts.length);
+    return Contacts.length;
+  }
 
   void saveMain(MainClass Contact) async {
     var dbClient = await db;
