@@ -40,11 +40,11 @@ class _LoginState extends State<AddData> {
   }
 
   TextEditingController username=new TextEditingController();
-  void _loginapi_validate() {
-    getSharedPreferences();
+    void _loginapi_validate() async{
+      await getSharedPreferences();
 
       _loginapi();
-  }
+    }
   Future<Null> _loginapi() async {
     var data = {"id": id};
     var url = Constants().FETCH_MAIN;
