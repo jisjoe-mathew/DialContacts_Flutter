@@ -95,7 +95,7 @@ class FirstScreen extends StatelessWidget {
                                 );
                               },
                               child:Image(
-                                image: new AssetImage("Assets/email.png"),
+                                image: new AssetImage("Assets/mail.png"),
                                 height: 80.0,
                                 width: 80.0,
                               )),

@@ -47,12 +47,13 @@ class _LoginState extends State<AddData> {
   }
 
   TextEditingController username=new TextEditingController();
-  var count=DBHelper().getMainCount();
 
   void _loginapi_validate() async{
 
 
       await getSharedPreferences();
+      var count=DBHelper().getMainCount();
+
       if (count== 0){
         _loginapi();
       }
