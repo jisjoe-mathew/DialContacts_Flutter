@@ -42,7 +42,6 @@ class _LoginState extends State<AddData> {
   getSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getString("id");
-    print("JISJEPJISJIEIJSIJSIJSIJSIJSIJSJS"+id);
 
   }
 
@@ -52,17 +51,22 @@ class _LoginState extends State<AddData> {
 
 
       await getSharedPreferences();
-      var count=DBHelper().getMainCount();
-
+      int count=await DBHelper().getMainCount();
+print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
       if (count== 0){
         _loginapi();
       }
       else
         {
+          Navigator.of(context).pop();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MainScreen()),
+
           );
+          print("JISJEPJISJIEIJSIJSIJSIJSIJSIJSJS"+id);
+
+
           //MAIN SCREEN
         }
     }
@@ -118,7 +122,7 @@ class _LoginState extends State<AddData> {
     print(response.body);
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
-      Contact m=Contact(dat[i]["id"],dat[i]["name"],dat[i]["role"],dat[i]["header"],dat[i]["dept"],dat[i]["address"],dat[i]["pic"]);
+      Contact m=Contact(dat[i]["id"].toString(),dat[i]["name"],dat[i]["role"],dat[i]["header"],dat[i]["dept"],dat[i]["address"],dat[i]["pic"]);
       DBHelper().saveContact(m);
     }
     }
@@ -147,7 +151,7 @@ class _LoginState extends State<AddData> {
     print(response.body);
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
-      Phone m=Phone(dat[i]["iid"],dat[i]["id"],dat[i]["dept"],dat[i]["num"],dat[i]["type"]);
+      Phone m=Phone(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["num"],dat[i]["type"].toString());
       DBHelper().savePhone(m);
     }
     }
@@ -175,7 +179,7 @@ class _LoginState extends State<AddData> {
     print(response.body);
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
-      Email m=Email(dat[i]["iid"],dat[i]["id"],dat[i]["dept"],dat[i]["email"],dat[i]["type"]);
+      Email m=Email(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["email"],dat[i]["type"].toString());
       DBHelper().saveEmail(m);
     }
     }

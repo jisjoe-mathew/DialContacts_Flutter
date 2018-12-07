@@ -1,5 +1,5 @@
 class MainClass{
-    int id;
+    String id;
     String header;
     String name;
     String pic;

@@ -30,13 +30,13 @@ class DBHelper{
   // Creating a table name Contact with fields
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
-    await db.execute("CREATE TABLE main (id INTEGER, header TEXT,name TEXT,pic TEXT)");
-    await db.execute("CREATE TABLE contacts (id INTEGER, name TEXT, role TEXT, header TEXT, dept TEXT,address TEXT, pic TEXT)");
-    await db.execute("CREATE TABLE phone (iid INTEGER, id INTEGER, dept TEXT, num TEXT, type INTEGER)");
-    await db.execute("CREATE TABLE email (iid INTEGER, id INTEGER, dept TEXT, email TEXT, type INTEGER)");
+    await db.execute("CREATE TABLE main (id TEXT, header TEXT,name TEXT,pic TEXT)");
+    await db.execute("CREATE TABLE contacts (id TEXT, name TEXT, role TEXT, header TEXT, dept TEXT,address TEXT, pic TEXT)");
+    await db.execute("CREATE TABLE phone (iid TEXT, id TEXT, dept TEXT, num TEXT, type TEXT)");
+    await db.execute("CREATE TABLE email (iid TEXT, id TEXT, dept TEXT, email TEXT, type TEXT)");
     await db.execute("CREATE TABLE upd (datetim TEXT)");
-    await db.execute("CREATE TABLE latln (id INTEGER, lat TEXT, lng TEXT)");
-    await db.execute("CREATE TABLE news (id INTEGER, name TEXT, msg TEXT,date TEXT)");
+    await db.execute("CREATE TABLE latln (id TEXT, lat TEXT, lng TEXT)");
+    await db.execute("CREATE TABLE news (id TEXT, name TEXT, msg TEXT,date TEXT)");
     print("Created tables");
   }
 
@@ -103,7 +103,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM main');
     List<MainClass> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      Contacts.add(new MainClass(list[i]["id"], list[i]["header"], list[i]["name"], list[i]["pic"]));
+      Contacts.add(new MainClass(list[i]["id"].toString(), list[i]["header"], list[i]["name"], list[i]["pic"]));
     }
     print(Contacts.length);
     return Contacts.length;
@@ -138,7 +138,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM phone');
     List<Phone> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      Contacts.add(new Phone(list[i]["iid"], list[i]["id"], list[i]["dept"], list[i]["num"], list[i]["type"]));
+      Contacts.add(new Phone(list[i]["iid"].toString(), list[i]["id"].toString(), list[i]["dept"], list[i]["num"], list[i]["type"]));
     }
     print(Contacts.length);
     return Contacts;

@@ -1,5 +1,5 @@
 class Contact{
-  int id;
+  String id;
   String name;
   String role;
   String header;

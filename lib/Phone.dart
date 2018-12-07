@@ -1,8 +1,8 @@
 class Phone{
-  int iid;
-  int id;
+  String iid;
+  String id;
   String dept;String num;
-  int type;
+  String type;
 
   Phone(this.iid, this.id, this.dept, this.num, this.type);
 
