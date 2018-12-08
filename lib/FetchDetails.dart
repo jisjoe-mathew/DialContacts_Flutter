@@ -52,7 +52,6 @@ class _LoginState extends State<AddData> {
 
       await getSharedPreferences();
       int count=await DBHelper().getMainCount();
-print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
       if (count== 0){
         _loginapi();
       }
@@ -64,7 +63,6 @@ print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
             MaterialPageRoute(builder: (context) => MainScreen()),
 
           );
-          print("JISJEPJISJIEIJSIJSIJSIJSIJSIJSJS"+id);
 
 
           //MAIN SCREEN
@@ -85,7 +83,6 @@ print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
         body: {"id": id},
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
-    print("yoooooooooooooooooo"+res[0]);
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
     {var dat;
     print(response.body);
@@ -116,7 +113,6 @@ print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
         body: {"id": id},
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
-    print("yoooooooooooooooooo"+res[0]);
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
     {var dat;
     print(response.body);
@@ -145,7 +141,6 @@ print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
         body: {"id": id},
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
-    print("yoooooooooooooooooo"+res[0]);
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
     {var dat;
     print(response.body);
@@ -173,7 +168,6 @@ print("COUNTCOUNTCOUNTCOUNTCOUNTCOUNTCOUNT="+count.toString());
         body: {"id": id},
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
-    print("yoooooooooooooooooo"+res[0]);
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
     {var dat;
     print(response.body);
