@@ -44,11 +44,25 @@ class DBHelper{
   Future<List<Contact>> getContacts() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM contacts');
+    print("LIST LENGTH+"+list.length.toString());
     List<Contact> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      Contacts.add(new Contact(list[i]["id"], list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+      Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
     }
-    print(Contacts.length);
+    print("LEN---------------"+Contacts.length.toString());
+    return Contacts;
+  }
+
+  Future<List<Contact>> getContacts_dept(String dept) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM contacts where header='"+dept+"'");
+    print("LIST LENGTH+"+list.length.toString());
+    List<Contact> Contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      if(!(list[i]["name"]  ==("Test User Admin") || list[i]["name"]==("Test2 (t2)") || list[i]["name"]==("Test3 (t3)")))
+      Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+    }
+    print("LEN---------------"+Contacts.length.toString());
     return Contacts;
   }
 
@@ -56,7 +70,7 @@ class DBHelper{
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       return await txn.rawInsert(
-          'INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(' +
+          "INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(" +
               '\'' +
               Contact.id.toString() +
               '\'' +

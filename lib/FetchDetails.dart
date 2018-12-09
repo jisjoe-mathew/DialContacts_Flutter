@@ -51,7 +51,10 @@ class _LoginState extends State<AddData> {
 
 
       await getSharedPreferences();
-      int count=await DBHelper().getMainCount();
+      List<Contact> items = new List();
+      items=await DBHelper().getContacts();
+      int count=items.length;
+      print("ITMENS COUNT="+count.toString());
       if (count== 0){
         _loginapi();
       }
