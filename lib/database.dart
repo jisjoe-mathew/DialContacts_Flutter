@@ -102,14 +102,14 @@ class DBHelper{
     });
   }
 
-  Future<List<MainClass>> getMain() async {
+  Future<List<MainClass>> getMain(String header) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM main');
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM main where header='"+header+"' order by name");
     List<MainClass> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      Contacts.add(new MainClass(list[i]["id"], list[i]["header"], list[i]["name"], list[i]["pic"]));
+      Contacts.add(new MainClass(list[i]["id"].toString(), list[i]["header"], list[i]["name"], list[i]["pic"]));
     }
-    print(Contacts.length);
+    print("Lengthhhhhhhhhhhhhhh"+Contacts.length.toString());
     return Contacts;
   }
   Future<int> getMainCount() async {

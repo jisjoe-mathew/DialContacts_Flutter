@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mcbs_dialcontacts/Regions.dart';
 import 'package:mcbs_dialcontacts/SpeakerProfile.dart';
 import 'package:mcbs_dialcontacts/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,14 +9,17 @@ import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
   @override
+
   FirstScreen createState() => FirstScreen();
   }
 
 class FirstScreen extends State<MainScreen> {
+  String NAME;
   String pic="http://mcbs.dialcontacts.com/global.png";
     Future getSharedPreferences() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       pic = prefs.getString("pic");
+      NAME = prefs.getString("name");
       print("PICTURE="+pic);
 setState(() {
 
@@ -28,12 +32,25 @@ setState(() {
   getSharedPreferences();
   super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
 
     // TODO: implement build
     return new MaterialApp(
-       home:Scaffold(body:Container(
+       home:Scaffold(
+           appBar: AppBar(
+               title: Text(NAME),
+               backgroundColor: const Color(0xFF075e54),
+               iconTheme: IconThemeData(
+                 color: Colors.white, //change your color here
+               ),
+               leading: new IconButton(
+                 icon: new Icon(Icons.arrow_back, color: Colors.white),
+                 onPressed: () => Navigator.of(context).pop(),
+               )
+           ),
+           body:Container(
           decoration: new BoxDecoration(
             image: new DecorationImage(
               image: new AssetImage("Assets/bg.jpg"),
@@ -98,7 +115,7 @@ setState(() {
                                     onTap: (){
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => PhoneLogin()),
+                                        MaterialPageRoute(builder: (context) => Regions("Emmaus")),
                                       );
                                       print("Container PHONE");
                                     },
@@ -130,7 +147,7 @@ setState(() {
                                     onTap: (){
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => PhoneLogin()),
+                                        MaterialPageRoute(builder: (context) => Regions("Zion")),
                                       );
                                       print("Container PHONE");
                                     },
