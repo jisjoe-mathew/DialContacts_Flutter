@@ -44,37 +44,16 @@ class _LoginState extends State<AddData> {
     id = prefs.getString("id");
 
   }
-  void _onLoading() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: new Dialog(
-        child: new Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            new CircularProgressIndicator(),
-            new Text("Loading"),
-          ],
-        ),
-      ),
-    );
-    new Future.delayed(new Duration(seconds: 3), () {
-      Navigator.pop(context); //pop dialog
-      _loginapi();
-    });
-  }
+
   TextEditingController username=new TextEditingController();
 
   void _loginapi_validate() async{
 
 
       await getSharedPreferences();
-      List<Contact> items = new List();
-      items=await DBHelper().getContacts();
-      int count=items.length;
-      print("ITMENS COUNT="+count.toString());
+      int count=await DBHelper().getMainCount();
       if (count== 0){
-_onLoading();
+        _loginapi();
       }
       else
         {

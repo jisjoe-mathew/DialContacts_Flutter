@@ -7,7 +7,9 @@ import 'package:mcbs_dialcontacts/Phone.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:html_unescape/html_unescape.dart';
 
+import 'dart:convert' show utf8;
 class DBHelper{
 
   static Database _db;
@@ -60,7 +62,31 @@ class DBHelper{
     List<Contact> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
       if(!(list[i]["name"]  ==("Test User Admin") || list[i]["name"]==("Test2 (t2)") || list[i]["name"]==("Test3 (t3)")))
-      Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+        Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+    }
+    print("LEN---------------"+Contacts.length.toString());
+    return Contacts;
+  }
+  Future<List<Contact>> getContacts_dept_header(String dept,String header) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM contacts where header='"+dept+"' and dept='"+header+"'");
+    print("LIST LENGTH+"+list.length.toString());
+    List<Contact> Contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      if(!(list[i]["name"]  ==("Test User Admin") || list[i]["name"]==("Test2 (t2)") || list[i]["name"]==("Test3 (t3)")))
+        Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+    }
+    print("LEN---------------"+Contacts.length.toString());
+    return Contacts;
+  }
+  Future<List<Contact>> getContacts_details(String dept,String name,String header) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM contacts where header='"+dept+"' and dept='"+header+"' and name='"+name+"'");
+    print("LIST LENGTH+"+list.length.toString());
+    List<Contact> Contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      if(!(list[i]["name"]  ==("Test User Admin") || list[i]["name"]==("Test2 (t2)") || list[i]["name"]==("Test3 (t3)")))
+        Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
     }
     print("LEN---------------"+Contacts.length.toString());
     return Contacts;
@@ -69,36 +95,40 @@ class DBHelper{
   void saveContact(Contact Contact) async {
     var dbClient = await db;
     await dbClient.transaction((txn) async {
-      return await txn.rawInsert(
-          "INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(" +
-              '\'' +
-              Contact.id.toString() +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.name +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.role +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.header +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.dept +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.adddress +
-              '\'' +
-              ',' +
-              '\'' +
-              Contact.pic +
-              '\'' +
-              ')');
+      var unescape = new HtmlUnescape();
+      String add=unescape.convert(Contact.adddress);
+
+      String text='INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(' +
+          '\'' +
+          Contact.id.toString() +
+          '\'' +
+          ',' +
+          '\'' +
+          Contact.name +
+          '\'' +
+          ',' +
+          '\'' +
+          Contact.role +
+          '\'' +
+          ',' +
+          '\'' +
+          Contact.header +
+          '\'' +
+          ',' +
+          '\'' +
+          Contact.dept +
+          '\'' +
+          ',' +
+          '\'' +
+          add +
+          '\'' +
+          ',' +
+          '\'' +
+          Contact.pic +
+          '\'' +
+          ')';
+      print("JIS TESTING QUERY="+text);
+      return await txn.rawInsert(text);
     });
   }
 
@@ -147,14 +177,14 @@ class DBHelper{
     });
   }
 
-  Future<List<Phone>> getPhone() async {
+  Future<List<Phone>> getPhone(Contact c) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM phone');
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM phone where id='"+c.id+"' and dept='"+c.dept+"'");
     List<Phone> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
       Contacts.add(new Phone(list[i]["iid"].toString(), list[i]["id"].toString(), list[i]["dept"], list[i]["num"], list[i]["type"]));
     }
-    print(Contacts.length);
+    print("PHONE LENGTH"+Contacts.length.toString());
     return Contacts;
   }
 
@@ -186,9 +216,9 @@ class DBHelper{
     });
   }
 
-  Future<List<Email>> getEmail() async {
+  Future<List<Email>> getEmail(Contact c) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM email');
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM email where id='"+c.id+"' and dept='"+c.dept+"'");
     List<Email> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
       Contacts.add(new Email(list[i]["iid"], list[i]["id"], list[i]["dept"], list[i]["email"], list[i]["type"]));
