@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcbs_dialcontacts/Contact.dart';
+import 'package:mcbs_dialcontacts/ProfileDetail.dart';
 import 'package:mcbs_dialcontacts/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,10 +34,32 @@ getSharedPreferences();
       }
       _loginapi_validate();
   }
-
+  Future<bool> _onWillPop() async {
+    print("Inside WillPop");
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      child: new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Unsaved data will be lost.'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return new WillPopScope(
+        onWillPop: _onWillPop,
+        child: MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text(NAME),
@@ -90,13 +113,14 @@ getSharedPreferences();
               }),
         ),)
       ),
+        )
     );
   }
 
   void _onTapItem(BuildContext context, Contact Contact) {
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(
-        content: new Text(Contact.id.toString() + ' - ' + Contact.name)));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileDetail(Contact)),
+    );
   }
 }

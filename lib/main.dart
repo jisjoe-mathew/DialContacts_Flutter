@@ -34,11 +34,11 @@ getSharedPreferences(BuildContext context) async {
 
 class _MyAppState extends State<MyApp> {
   @override
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirstScreen()
+        home: FirstScreen()
     );
 
   }
@@ -96,8 +96,8 @@ class FirstScreen extends StatelessWidget {
                               },
                               child:Image(
                                 image: new AssetImage("Assets/mail.png"),
-                                height: 80.0,
-                                width: 80.0,
+                                height: 100.0,
+                                width: 100.0,
                               )),
                           new GestureDetector(
                             onTap: (){
@@ -109,8 +109,8 @@ class FirstScreen extends StatelessWidget {
                             },
                             child:Image(
                               image: new AssetImage("Assets/phone.png"),
-                              height: 80.0,
-                              width: 80.0,
+                              height: 100.0,
+                              width: 100.0,
                             ),
                           ),
                         ],
@@ -151,11 +151,11 @@ class _LoginState extends State<EmailLogin> {
       _loginapi();
   }
   Future<Null> _loginapi() async {
-          var data = {"type": "email", "username": username.text};
-      var url = Constants().VERIFY;
-      print((data));
-      var response = await request(url, json.encode(data));
-      print(response);
+    var data = {"type": "email", "username": username.text};
+    var url = Constants().VERIFY;
+    print((data));
+    var response = await request(url, json.encode(data));
+    print(response);
 
 
   }
@@ -184,8 +184,8 @@ class _LoginState extends State<EmailLogin> {
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIos: 1,
-        textcolor:'#ffffff',
-        bgcolor: '#FF3E4D'
+          textcolor:'#ffffff',
+          bgcolor: '#FF3E4D'
       );
     }
     }
@@ -195,60 +195,60 @@ class _LoginState extends State<EmailLogin> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      appBar: AppBar(
-        title: Text("Login",
-          style: new TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold
+        appBar: AppBar(
+          title: Text("Login",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+            ),
           ),
+          backgroundColor: Colors.blueAccent,
         ),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body:   Builder(
-        // Create an inner BuildContext so that the onPressed methods
-        // can refer to the Scaffold with Scaffold.of().
-        builder: (BuildContext context) {
-      return new Container(
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        child: Card(
-    child: new Container(
-          padding: EdgeInsets.all(20.0),
-          height: 300.0,
-          width: 300.0,
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              new Image(
-                image: new AssetImage("Assets/logo.png"),
-                height: 100.0,
-                width: 100.0,
-              ),
-              new TextField(
-                controller: username,
-                decoration: new InputDecoration(
-                    hintText: "Email",
-                    icon: new Icon(Icons.lock)
-                ),
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
+        body:   Builder(
+          // Create an inner BuildContext so that the onPressed methods
+          // can refer to the Scaffold with Scaffold.of().
+            builder: (BuildContext context) {
+              return new Container(
+                  color: Colors.transparent,
+                  alignment: Alignment.center,
+                  child: Card(
+                    child: new Container(
+                      padding: EdgeInsets.all(20.0),
+                      height: 300.0,
+                      width: 300.0,
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          new Image(
+                            image: new AssetImage("Assets/logo.png"),
+                            height: 100.0,
+                            width: 100.0,
+                          ),
+                          new TextField(
+                            controller: username,
+                            decoration: new InputDecoration(
+                                hintText: "Email",
+                                icon: new Icon(Icons.lock)
+                            ),
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
 
-                  new RaisedButton(
-                    onPressed: _loginapi_validate,
-                    color: Colors.green,
-                    child: new Text("Authenticate"),
+                              new RaisedButton(
+                                onPressed: _loginapi_validate,
+                                color: Colors.green,
+                                child: new Text("Authenticate"),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
                   )
-                ],
-              )
-            ],
-          ),
-        ),
-      )
-      );
-        }
+              );
+            }
         )
     );
   }
@@ -420,9 +420,9 @@ class _LoginState_final extends State<Login> {
       }
       saveValues();
       Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FetchDetails()),
-    );
+        context,
+        MaterialPageRoute(builder: (context) => FetchDetails()),
+      );
     }
     else
     {
@@ -500,8 +500,4 @@ class _LoginState_final extends State<Login> {
       ),
     );
   }
-}
-_displaySnackBar(BuildContext context) {
-  final snackBar = SnackBar(content: Text('Are you talkin\' to me?'));
-  Scaffold.of(context).showSnackBar(snackBar);
 }

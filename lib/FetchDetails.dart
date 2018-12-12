@@ -55,18 +55,15 @@ class _LoginState extends State<AddData> {
       if (count== 0){
         _loginapi();
       }
-      else
-        {
-          Navigator.of(context).pop();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MainScreen()),
+      /*else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
 
-          );
+        );
+      }*/
+     
 
-
-          //MAIN SCREEN
-        }
     }
   Future<Null> _loginapi() async {
     var data = {"id": id};
@@ -142,11 +139,17 @@ class _LoginState extends State<AddData> {
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
-    {var dat;
+    {var dat,type;
     print(response.body);
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
-      Phone m=Phone(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["num"],dat[i]["type"].toString());
+      if(dat[i]["type"]==0) {
+        type = "Mobile";
+      }
+        else{
+        type="Landline";
+      }
+      Phone m=Phone(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["num"],type);
       DBHelper().savePhone(m);
     }
     }
@@ -169,50 +172,68 @@ class _LoginState extends State<AddData> {
         encoding: Encoding.getByName("utf-8"));
     List res=response.body.split("\n");
     if(res[0].toString().compareTo("<!DOCTYPE html>")==1)
-    {var dat;
+    {var dat,type;
     print(response.body);
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
-      Email m=Email(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["email"],dat[i]["type"].toString());
+      if(dat[i]["type"]==0) {
+        type = "Official";
+      print("Official");
+      }
+
+      else{
+        type="Personal";
+      }
+      Email m=Email(dat[i]["iid"].toString(),dat[i]["id"].toString(),dat[i]["dept"],dat[i]["email"],type);
       DBHelper().saveEmail(m);
     }
     }
     return null;
   }
 void _loginapi4(){
+  setState(() { });
+
+  /*Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => MainScreen()),
+
+  );*/
 
 }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loginapi_validate();
+  }
   @override
   Widget build(BuildContext context) {
     print(id);
-    _loginapi_validate();
+
     // TODO: implement build
-    return new Scaffold(
-        appBar: AppBar(
-          title: Text("Fetching Details",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold
-            ),
-          ),
-          backgroundColor: Colors.blueAccent,
-        ),
-        body:   Builder(
-          // Create an inner BuildContext so that the onPressed methods
-          // can refer to the Scaffold with Scaffold.of().
-            builder: (BuildContext context) {
-              return new Container(
+    return MaterialApp(
+    home: Scaffold(
+
+    body:  Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.max,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children:<Widget>[  Container(
+      padding: EdgeInsets.all(30.0),
                   color: Colors.transparent,
                   alignment: Alignment.center,
-                  child: Card(
-                    child: new Scaffold(
-                      body: Text("Fetching Data Please Wait..."),
-                    )
-                  )
-              );
-            }
-        )
+                  child:
+                     new Center(child:new CircularProgressIndicator(
+                        value: null,
+                        strokeWidth: 20.0,
+                      ),
+
+
+        )),Text("Loading...Please Wait....")])
+              )
     );
-  }
+
+
+            }
+
 }

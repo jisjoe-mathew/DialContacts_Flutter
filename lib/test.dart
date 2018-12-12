@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mcbs_dialcontacts/Contact.dart';
 import 'package:mcbs_dialcontacts/Email.dart';
@@ -5,6 +7,7 @@ import 'package:mcbs_dialcontacts/MainClass.dart';
 import 'package:mcbs_dialcontacts/SpeakerProfile_Others.dart';
 import 'package:mcbs_dialcontacts/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Contact header;
 class test extends StatefulWidget {
@@ -63,12 +66,12 @@ class _ListViewState extends State<test> {
                     Expanded(child:
                     ListView.builder(
                         itemCount: items.length,
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(10.0),
                         itemBuilder: (context, position) {
                           return Container(
                               child:Column(
                                 children: <Widget>[
-                                  Divider(height: 3.0),
+                                  Divider(height: 1.0),
                                   ListTile(
                                     title: Text(
                                       '${items[position].email}',
@@ -78,15 +81,29 @@ class _ListViewState extends State<test> {
 
                                       ),
                                     ),
+                                    subtitle: Padding(padding: EdgeInsets.only(top: 5.0),child:Text(
+                                      '${items[position].type}',
+                                      style: TextStyle(
+                                          fontSize: 15.0,
+                                          color: Colors.white70,
+                                        fontStyle: FontStyle.italic
+
+                                      ),)
+                                    ),
                                     leading: Column(
                                       children: <Widget>[
                                         Padding(padding: EdgeInsets.only(top: 0.0),
-                                          child: Icon(Icons.email, color: Colors.white
+                                          child: GestureDetector(
+                                            onTap:(){
+                                              launch("mailto:"+items[position].email);
+
+                                          },child:Icon(Icons.email, color: Colors.white,size: 40.0
                                           ),
+                                        )
                                         )
                                       ],
                                     ),
-                                    onTap: () =>_onTapItem(items[position]),
+                                  //  onTap: () =>_onTapItem(items[position]),
                                   ),
                                 ],
                               )
@@ -100,9 +117,10 @@ class _ListViewState extends State<test> {
   }
 
   void _onTapItem( Email Contact) {
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(
-        content: new Text(Contact.id.toString() + ' - ' + Contact.email)));
+  } void _onTapItem_email( Email Contact) {
+    if (Platform.isAndroid) {
+
+    }
   }
-}
+  }
+

@@ -47,9 +47,13 @@ class _ListViewState extends State<ProfileDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double c_width = MediaQuery.of(context).size.width*0.6;
+
     print("ITEM 1 LENGTH="+item1.length.toString());
     return MaterialApp(
-        home:  SafeArea(child: Scaffold(
+        home:  SafeArea(
+            bottom: true,
+            child: Scaffold(
             appBar: AppBar(
                 title: Text(NAME),
                 backgroundColor: const Color(0xFF075e54),
@@ -75,8 +79,8 @@ class _ListViewState extends State<ProfileDetail> {
                       children: <Widget>[
                         Padding(
               padding:EdgeInsets.only(top: 0.0),
-                  child:
-                  FadeInImage
+
+                 child:FadeInImage
                     (
                       placeholder: AssetImage("Assets/logo.png"),
                       image: NetworkImage(m.pic),
@@ -106,7 +110,7 @@ class _ListViewState extends State<ProfileDetail> {
                     ,Container(
                         decoration: new BoxDecoration(color: const Color(0x99075e54)),
 
-                        height: item1.length*100.0,
+                        height: item1.length*140.0,
                       padding: EdgeInsets.all(10.0),
                       alignment: Alignment.center ,
                       child:test_num(m)
@@ -114,22 +118,40 @@ class _ListViewState extends State<ProfileDetail> {
                     ),Container(
                         decoration: new BoxDecoration(color: const Color(0x99075e54)),
 
-                        height: (item2.length)*100.0,
+                        height: (item2.length)*140.0,
                         padding: EdgeInsets.all(10.0),
                         alignment: Alignment.center ,
                         child: test(m)
 
                     ),Container(
-                        decoration: new BoxDecoration(color: const Color(0x99075e54)),
+                        decoration: new BoxDecoration(color: const Color(0xFF075e54)),
 
-                        height: 100.0,
-                        padding: EdgeInsets.all(50.0),
+                        height: c_width,
+                        padding: EdgeInsets.all(20.0),
                         alignment: Alignment.center ,
-                        child: Text(m.adddress,style: TextStyle(
+                        child:  Scaffold(
+                          backgroundColor: const Color(0xFF075e54),
+                          body:Center(
+                            child:Container(
+                              padding: EdgeInsets.all(10.0),
+                              decoration: new BoxDecoration(color: const Color(0xFF075e54)),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(padding:EdgeInsets.only(bottom: 20.0),
+                              child:Text("Address",style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold
+
+                              ))),
+                            Text(m.adddress,style: TextStyle(
                             fontSize: 20.0,
                             color: Colors.white
-
-                        ),)
+                            )
+                        ),]
+                              )  )
+                          )
+                        )
 
                     )
 

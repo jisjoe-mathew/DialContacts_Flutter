@@ -6,6 +6,8 @@ import 'package:mcbs_dialcontacts/Phone.dart';
 import 'package:mcbs_dialcontacts/SpeakerProfile_Others.dart';
 import 'package:mcbs_dialcontacts/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 Contact header;
 class test_num extends StatefulWidget {
@@ -64,12 +66,12 @@ backgroundColor: const Color(0x66075e54),
             Expanded(child:
             ListView.builder(
                 itemCount: items.length,
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 itemBuilder: (context, position) {
                   return Container(
                        child:Column(
                     children: <Widget>[
-                      Divider(height: 3.0),
+                      Divider(height: 1.0),
                       ListTile(
                         title: Text(
                           '${items[position].num}',
@@ -82,19 +84,34 @@ backgroundColor: const Color(0x66075e54),
                         leading: Column(
                           children: <Widget>[
                             Padding(padding: EdgeInsets.only(top: 0.0),
-                                child: Icon(Icons.phone, color: Colors.white
+                                child:GestureDetector(onTap: (){
+                                  launch("tel://"+items[position].num);
+                                  }, child:Icon(Icons.phone, color: Colors.white,size: 40.0),
                                 ),
                                 )
                           ],
-                        ),trailing: Column(
+                        ),
+                        subtitle: Padding(padding: EdgeInsets.only(top: 5.0),child:Text(
+                          '${items[position].type}',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.white70,
+                              fontStyle: FontStyle.italic
+
+                          ),)
+                        ),
+                        trailing: Column(
                   children: <Widget>[
                   Padding(padding: EdgeInsets.only(top: 0.0),
-                  child: Icon(Icons.sms, color: Colors.white
-                  ),
+                    child:GestureDetector(onTap: (){
+                      launch("sms://"+items[position].num);
+                    },
+                  child: Icon(Icons.sms, color: Colors.white,size: 40.0
+                  ),)
                   )
                   ],
                       ),
-                        onTap: () =>_onTapItem(items[position]),
+                        //onTap: () =>launch("tel://"+items[position].num),
                       ),
                     ],
                   )
