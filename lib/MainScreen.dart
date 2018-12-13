@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:mcbs_dialcontacts/Contact.dart';
 import 'package:mcbs_dialcontacts/ProfileDetail.dart';
 import 'package:mcbs_dialcontacts/Regions.dart';
+import 'package:mcbs_dialcontacts/Search.dart';
 import 'package:mcbs_dialcontacts/SpeakerProfile.dart';
+import 'package:mcbs_dialcontacts/Update.dart';
 import 'package:mcbs_dialcontacts/database.dart';
 import 'package:mcbs_dialcontacts/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,13 +37,35 @@ class FirstScreen extends State<MainScreen> {
     getSharedPreferences();
     super.initState();
   }
+  Future<bool> _onWillPop() {
+    print("----------------------------------------------------------------------------------------");
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
 
     // TODO: implement build
     return new MaterialApp(
-        home:Scaffold(
+        home:new WillPopScope(
+        onWillPop: _onWillPop,
+        child:Scaffold(
             appBar: AppBar(
               title: Text(NAME),
               backgroundColor: const Color(0xFF075e54),
@@ -54,12 +78,21 @@ class FirstScreen extends State<MainScreen> {
                   onTap: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SpeakerProfile()),
+                      MaterialPageRoute(builder: (context) => Search()),
                     );
                     print("Container PHONE");
                   },
                   child:Icon(Icons.search,size: 30.0,))),
-              Padding(padding: EdgeInsets.all(10.0),child: Icon(Icons.refresh,size: 30.0,)),
+              Padding(padding: EdgeInsets.all(10.0),
+
+                  child: new GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Update()),
+                        );
+                        print("Container PHONE");
+                      },child:Icon(Icons.refresh,size: 30.0,))),
               ],primary: true,titleSpacing: 15.0,
             ),
 
@@ -219,7 +252,7 @@ class FirstScreen extends State<MainScreen> {
                 ),
 
               ),
-            ))
+            )      ))
     );
   }
 }

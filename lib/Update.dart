@@ -16,12 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-class FetchDetails extends StatefulWidget {
+class Update extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<FetchDetails> {
+class _MyAppState extends State<Update> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,8 +48,7 @@ class _LoginState extends State<AddData> {
   TextEditingController username=new TextEditingController();
 
   void _loginapi_validate() async{
-
-
+    await DBHelper().clear_Table();
       await getSharedPreferences();
       int count=await DBHelper().getMainCount();
       if (count== 0){
@@ -116,7 +115,12 @@ class _LoginState extends State<AddData> {
     dat = jsonDecode(response.body);
     for(int i=0;i<dat.length;i++){
       Contact m=Contact(dat[i]["id"].toString(),dat[i]["name"],dat[i]["role"],dat[i]["header"],dat[i]["dept"],dat[i]["address"],dat[i]["pic"]);
-     DBHelper().saveContact(m);
+     try {
+       DBHelper().saveContact(m);
+     }
+     catch (e){
+print("Exception-----------------------------------------"+e);
+     }
     }
     }
     return null;
@@ -238,3 +242,4 @@ void _loginapi4(){
             }
 
 }
+

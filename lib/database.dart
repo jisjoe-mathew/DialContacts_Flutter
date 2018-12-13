@@ -8,8 +8,10 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:html_unescape/html_unescape.dart';
+import 'package:html/parser.dart';
 
 import 'dart:convert' show utf8;
+
 class DBHelper{
 
   static Database _db;
@@ -42,6 +44,20 @@ class DBHelper{
     print("Created tables");
   }
 
+  void clear_Table() async {
+    var dbClient = await db;
+
+    await dbClient.rawQuery("DROP TABLE main");
+    await dbClient.rawQuery("DROP TABLE contacts ");
+    await dbClient.rawQuery("DROP TABLE phone ");
+    await dbClient.rawQuery("DROP TABLE email");
+    await dbClient.rawQuery("DROP TABLE upd");
+    await dbClient.rawQuery("DROP TABLE latln");
+    await dbClient.rawQuery("DROP TABLE news");
+    _onCreate(dbClient, 1);
+    print("Created tables");
+  }
+
   // Retrieving Contacts from Contact Tables
   Future<List<Contact>> getContacts() async {
     var dbClient = await db;
@@ -58,6 +74,19 @@ class DBHelper{
   Future<List<Contact>> getContacts_dept(String dept) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery("SELECT * FROM contacts where header='"+dept+"'");
+    print("LIST LENGTH+"+list.length.toString());
+    List<Contact> Contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      if(!(list[i]["name"]  ==("Test User Admin") || list[i]["name"]==("Test2 (t2)") || list[i]["name"]==("Test3 (t3)")))
+        Contacts.add(new Contact(list[i]["id"].toString(), list[i]["name"], list[i]["role"], list[i]["header"], list[i]["dept"], list[i]["address"], list[i]["pic"]));
+    }
+    print("LEN---------------"+Contacts.length.toString());
+    return Contacts;
+  }
+
+  Future<List<Contact>> search(String dept) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery("SELECT * FROM contacts where name LIKE '%"+dept+"%' order by name");
     print("LIST LENGTH+"+list.length.toString());
     List<Contact> Contacts = new List();
     for (int i = 0; i < list.length; i++) {
@@ -96,9 +125,11 @@ class DBHelper{
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       var unescape = new HtmlUnescape();
-      String add=unescape.convert(Contact.adddress);
+      String add = _parseHtmlString(Contact.adddress);
+      print("Address---------------" + add);
+      add = add.replaceAll("'", "-");
 
-      String text='INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(' +
+      String text = 'INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(' +
           '\'' +
           Contact.id.toString() +
           '\'' +
@@ -127,10 +158,12 @@ class DBHelper{
           Contact.pic +
           '\'' +
           ')';
-      print("JIS TESTING QUERY="+text);
-      return await txn.rawInsert(text);
+     // print("JIS TESTING QUERY=" + text);
+      return await txn.rawQuery(text);
     });
-  }
+    }
+
+
 
   Future<List<MainClass>> getMain(String header) async {
     var dbClient = await db;
@@ -253,5 +286,13 @@ class DBHelper{
               '\'' +
               ')');
     });
+  }
+  String _parseHtmlString(String htmlString) {
+
+    var document = parse(htmlString);
+
+    String parsedString = parse(document.body.text).documentElement.text;
+
+    return parsedString;
   }
 }

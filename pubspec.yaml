@@ -23,6 +23,7 @@ dependencies:
   transparent_image: ^0.1.0
   html_unescape: ^1.0.1
   url_launcher: ^4.0.2
+  html: ^0.13.3
 
 
   # The following adds the Cupertino Icons font to your application.
