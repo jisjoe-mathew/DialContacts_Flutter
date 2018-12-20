@@ -19,7 +19,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class FirstScreen extends State<MainScreen> {
-  String NAME;
+  String NAME="MCBS";
   String pic="http://mcbs.dialcontacts.com/global.png";
   Future getSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

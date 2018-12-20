@@ -81,12 +81,34 @@ getSharedPreferences();
                       leading: Column(
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 0.0),
-                            child: CircleAvatar(
+                            child: GestureDetector(
+                                onTap: (){
+                                  showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: true, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(items[position].name,style:TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold
+
+                                        ),
+                                        ),
+                                        content: new Image(
+                                            image: NetworkImage(items[position].pic)),
+                                      );
+                                    },
+                                  );
+                                  }
+                                  ,
+                                child:CircleAvatar(
                             backgroundImage: NetworkImage(items[position].pic),
+
                             radius: 25.0,
 
-                          )
 
+                                )
+                            )
                           ),
                         ],
                       ),
@@ -106,4 +128,5 @@ getSharedPreferences();
       MaterialPageRoute(builder: (context) => ProfileDetail(Contact)),
     );
   }
+
 }

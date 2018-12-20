@@ -98,12 +98,35 @@ getSharedPreferences();
                       leading: Column(
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 0.0),
-                            child: CircleAvatar(
+                            child: GestureDetector(
+                onTap: (){
+                showDialog<void>(
+                context: context,
+                barrierDismissible: true, // user must tap button!
+                builder: (BuildContext context) {
+                return AlertDialog(
+                title: Text(items[position].name,style:TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+
+                ),
+                ),
+                content:FadeInImage
+                (
+                placeholder: AssetImage("Assets/logo.png"),
+                  image: NetworkImage(items[position].pic),
+                  fit: BoxFit.fill,
+                  )
+
+                );
+                });}
+                ,
+                child:CircleAvatar(
                             backgroundImage: NetworkImage(items[position].pic),
                             radius: 25.0,
 
-                          )
-                          ),
+                          ))
+                            ),
                         ],
                       ),
                       onTap: () => _onTapItem(context, items[position]),

@@ -44,13 +44,34 @@ class _ListViewState extends State<ProfileDetail> {
     }
     _loginapi_validate();
   }
-
+  Future<bool> _onWillPop() {
+    print("----------------------------------------------------------------------------------------");
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit an App'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
   @override
   Widget build(BuildContext context) {
     double c_width = MediaQuery.of(context).size.width*0.6;
 
     print("ITEM 1 LENGTH="+item1.length.toString());
-    return MaterialApp(
+    return new WillPopScope(
+        onWillPop:() async => false,
+        child:MaterialApp(
         home:  SafeArea(
             bottom: true,
             child: Scaffold(
@@ -160,8 +181,8 @@ class _ListViewState extends State<ProfileDetail> {
               ),
               )
             )
-        )  ));
-
+        )  ))
+    );
   }
 
   void _onTapItem(BuildContext context, Phone Contact) {

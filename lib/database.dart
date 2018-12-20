@@ -126,7 +126,6 @@ class DBHelper{
     await dbClient.transaction((txn) async {
       var unescape = new HtmlUnescape();
       String add = _parseHtmlString(Contact.adddress);
-      print("Address---------------" + add);
       add = add.replaceAll("'", "-");
 
       String text = 'INSERT INTO contacts(id, name, role, header, dept, address, pic ) VALUES(' +

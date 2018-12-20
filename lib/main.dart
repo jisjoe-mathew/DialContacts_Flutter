@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mcbs_dialcontacts/Constants.dart';
 import 'package:mcbs_dialcontacts/FetchDetails.dart';
+import 'package:mcbs_dialcontacts/MainScreen.dart';
+import 'package:mcbs_dialcontacts/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -25,10 +27,20 @@ getSharedPreferences(BuildContext context) async {
   print("jisjoe"+prefs.getString("id"));
 
   if(id==true){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FetchDetails()),
-    );
+    int count=await DBHelper().getMainCount();
+    if (count== 0){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FetchDetails()),
+      );    }
+    else{
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+
+      );
+    }
+
   }
 }
 
